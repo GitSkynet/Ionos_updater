@@ -6,12 +6,6 @@ on:
     paths:
       - '**.cs'
       - '**.csproj'
-  push:
-    branches:
-      - master
-    paths:
-      - '**.cs'
-      - '**.csproj'
 
 env:
   DOTNET_VERSION: '6.0.401' # La versión del SDK de .NET a utilizar
