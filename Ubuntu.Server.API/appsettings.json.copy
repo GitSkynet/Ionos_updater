@@ -1,0 +1,13 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ApiKeys": {
+    "Telegram": "your_ionos_api_key",
+    "IonosApiKey": "your_ionos_api_key"
+  },
+  "AllowedHosts": "*"
+}
