@@ -36,7 +36,7 @@ namespace Ubuntu.Server.API.Tests.DomainLayerTests
 			IonosQueryService.Setup(x => x.GetTheZoneID()).ReturnsAsync(expectedResult);
 
 			var result = ionosService.GetTheZoneID().Result;
-
+			 
 			Assert.IsNotNull(result);   
 			Assert.IsNotNull(expectedResult);
 			Assert.AreEqual(result, expectedResult);
