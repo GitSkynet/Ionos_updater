@@ -5,8 +5,8 @@ namespace Infraestructure.Factories
 {
 	public static class HttpClientFactory
 	{
-		private static HttpClient client = new HttpClient();
-		private static string? apiKeysFactory;
+		private static HttpClient client = new HttpClient(); 
+		private static string? apiKeysFactory; 
 
 		public static HttpClient BaseConfigClient(IConfiguration keysFactory)
 		{
