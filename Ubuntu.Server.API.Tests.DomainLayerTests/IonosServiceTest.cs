@@ -16,8 +16,8 @@ namespace Ubuntu.Server.API.Tests.DomainLayerTests
 		[TestInitialize]
 		public void Setup()
 		{
-			IonosQueryService = new Mock<IDomain>();
-			ionosService = new(IonosQueryService.Object);
+			IonosQueryService = new Mock<IDomain>(); 
+			ionosService = new(IonosQueryService.Object); 
 
 			ionosZoneList = new List<IonosZone>()
 			{
