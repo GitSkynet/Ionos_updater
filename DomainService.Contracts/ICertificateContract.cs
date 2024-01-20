@@ -14,7 +14,6 @@ namespace DomainService.Contracts
 		/// </summary>
 		/// <returns>Lista de tipo <see cref="Certificate"/> que representa la lista de certificados asignados.</returns>
 		public Task<List<Certificate>> GetCertificates();
-        //public Task<List<Certificate>> GetCertificates();
 
         /// <summary>
         /// Obtiene por id los detalles del certificado asignado al usuario y devuelve un objeto de tipo Certificate
