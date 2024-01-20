@@ -36,11 +36,11 @@ namespace Ubuntu.Server.API.Tests.DomainLayerTests
 			var expectedResult = ionosZoneList.Single(x => x.Id == "f537c70e-1801-11ec-814c-0a586444433b");
 			IonosQueryService.Setup(x => x.GetTheZoneID()).ReturnsAsync(expectedResult);
 
-			var result = ionosService.GetTheZoneID().Result;
+			var result = ionosService.GetTheZoneID().Result; 
 
-			Assert.IsNotNull(result);
-			Assert.IsNotNull(expectedResult);
-			Assert.AreEqual(result, expectedResult);
+			Assert.IsNotNull(result); 
+			Assert.IsNotNull(expectedResult); 
+			Assert.AreEqual(result, expectedResult); 
 		}
 	}
 }
