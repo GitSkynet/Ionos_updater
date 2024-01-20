@@ -144,7 +144,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build Docker image
+      - name: Build Docker image 
         run: docker build -t 1234567890325sdfsdc/ubuntuserverapi:latest ./
 
       - name: Push Docker image
