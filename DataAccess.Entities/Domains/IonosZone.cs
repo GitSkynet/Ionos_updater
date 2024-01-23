@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Entities.IONOSEntities
+namespace DataAccess.Entities.Domains
 {
-	[Serializable]
-	public class IonosZone
+    [Serializable]
+    public class IonosZone
     {
         [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }

@@ -1,12 +1,12 @@
-﻿using DataAccess.DataAccess.RESTServices.IONOS.Interfaces;
-using DataAccess.Entities.IONOSEntities;
-using Domain.Service.Services.IONOS;
+﻿using DataAccess.DataAccess.Interfaces;
+using DataAccess.Entities.Domains;
+using Domain.Service.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace Ubuntu.Server.API.Tests.DomainLayerTests
 {
-	[TestClass]
+    [TestClass]
 	public class IonosServiceTest
 	{
 		private Mock<IDomain> IonosQueryService;

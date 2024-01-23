@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 
-namespace DataAccess.Entities.IONOSEntities
+namespace DataAccess.Entities.Domains
 {
-	[Serializable]
-	public class IonosDomain
+    [Serializable]
+    public class IonosDomain
     {
         [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
@@ -28,7 +28,7 @@ namespace DataAccess.Entities.IONOSEntities
 
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
-        
+
         [JsonProperty("prio", NullValueHandling = NullValueHandling.Ignore)]
         public string? Priority { get; set; }
     }

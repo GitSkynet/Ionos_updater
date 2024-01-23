@@ -1,25 +1,25 @@
-﻿using DataAccess.DataAccess.RESTServices.IONOS.Interfaces;
-using DataAccess.Entities.IONOSEntities;
+﻿using DataAccess.DataAccess.Interfaces;
+using DataAccess.Entities.Domains;
 using Infraestructure.Factories;
 using log4net;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace DataAccess.DataAccess.RESTServices.IONOS.Services
+namespace DataAccess.DataAccess.Services
 {
     public class DomainDA : IDomain
-	{
+    {
         private readonly ILog logger;
         private readonly HttpClient client;
         private readonly TelegramService telegramService;
         private readonly string getZoneURL = "https://api.hosting.ionos.com/dns/v1/zones/";
 
-		public DomainDA(IConfiguration apiKeysFactory)
+        public DomainDA(IConfiguration apiKeysFactory)
         {
             client = HttpClientFactory.BaseConfigClient(apiKeysFactory);
-			telegramService = new TelegramService(apiKeysFactory);
-            this.logger = LogManager.GetLogger(typeof(DomainDA));
+            telegramService = new TelegramService(apiKeysFactory);
+            logger = LogManager.GetLogger(typeof(DomainDA));
         }
 
         public async Task<List<IonosDomain>> UpdateDomains(string publicIP, IonosZone domainZone, List<IonosDomain> filteredDomains)
@@ -27,7 +27,7 @@ namespace DataAccess.DataAccess.RESTServices.IONOS.Services
             List<IonosDomain> ionosDomains = new();
             try
             {
-                foreach(IonosDomain domain in filteredDomains)
+                foreach (IonosDomain domain in filteredDomains)
                 {
                     var url = getZoneURL + domainZone.Id + "/records/" + domain.Id;
                     var request = new HttpRequestMessage(HttpMethod.Put, url);
@@ -41,7 +41,7 @@ namespace DataAccess.DataAccess.RESTServices.IONOS.Services
                         prio = 0,
                         disbaled = false
                     };
-					var jsonDomain = JsonConvert.SerializeObject(domainToUpdate);
+                    var jsonDomain = JsonConvert.SerializeObject(domainToUpdate);
                     request.Content = new StringContent(jsonDomain, Encoding.UTF8, "application/json");
                     var response = await client.SendAsync(request);
 
@@ -57,7 +57,7 @@ namespace DataAccess.DataAccess.RESTServices.IONOS.Services
                         throw new Exception(string.Concat("Error: ", response.StatusCode.ToString()));
                     }
                 }
-                if(!ionosDomains.Any())
+                if (!ionosDomains.Any())
                 {
                     await telegramService.SendMessage("Skynet API DNS UPDATER");
                     await telegramService.SendMessage("No DNS update required, all domains are updated");
@@ -96,39 +96,39 @@ namespace DataAccess.DataAccess.RESTServices.IONOS.Services
             }
         }
 
-		public async Task<IonosDomain> CreateSubdomain(IonosZone domainZone, IonosDomain ionosDomain)
+        public async Task<IonosDomain> CreateSubdomain(IonosZone domainZone, IonosDomain ionosDomain)
         {
             try
             {
                 IonosDomain domainCreated = new();
-				var url = getZoneURL + domainZone.Id + "/records/";
-				var request = new HttpRequestMessage(HttpMethod.Post, url);
-				request = HttpClientFactory.ConfigRequestIONOS(request);
-				var jsonArray = new[] {ionosDomain};
-				var jsonString = JsonConvert.SerializeObject(jsonArray);
-				request.Content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                var url = getZoneURL + domainZone.Id + "/records/";
+                var request = new HttpRequestMessage(HttpMethod.Post, url);
+                request = HttpClientFactory.ConfigRequestIONOS(request);
+                var jsonArray = new[] { ionosDomain };
+                var jsonString = JsonConvert.SerializeObject(jsonArray);
+                request.Content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
-				var response = await client.SendAsync(request);
+                var response = await client.SendAsync(request);
 
-				if (response.IsSuccessStatusCode)
-				{
+                if (response.IsSuccessStatusCode)
+                {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-					domainCreated = JsonConvert.DeserializeObject<IonosDomain[]>(jsonResponse!)![0];
-					var message = $"Domain {domainCreated.Name} created with IP: {domainCreated.Content}";
-					await telegramService.SendMessage(message);
-				}
-				else
-				{
-					throw new Exception(string.Concat("Error: ", response.StatusCode.ToString()));
-				}
-				return domainCreated;
-                
-			}
+                    domainCreated = JsonConvert.DeserializeObject<IonosDomain[]>(jsonResponse!)![0];
+                    var message = $"Domain {domainCreated.Name} created with IP: {domainCreated.Content}";
+                    await telegramService.SendMessage(message);
+                }
+                else
+                {
+                    throw new Exception(string.Concat("Error: ", response.StatusCode.ToString()));
+                }
+                return domainCreated;
+
+            }
             catch (Exception ex)
             {
-				throw new Exception(string.Concat("Domain creation failed: ", ex));
-			}
-		}
+                throw new Exception(string.Concat("Domain creation failed: ", ex));
+            }
+        }
 
         public async Task<List<IonosDomain>> GetAllDomainsForZoneID(string zoneID)
         {
@@ -155,5 +155,5 @@ namespace DataAccess.DataAccess.RESTServices.IONOS.Services
                 throw new Exception(string.Concat("Failure: ", ex));
             }
         }
-	}
+    }
 }

@@ -1,16 +1,16 @@
-﻿using DataAccess.DataAccess.RESTServices.IONOS.Interfaces;
-using DataAccess.Entities.IONOSEntities;
+﻿using DataAccess.DataAccess.Interfaces;
+using DataAccess.Entities.Domains;
 using DomainService.Contracts;
 
-namespace Domain.Service.Services.IONOS
+namespace Domain.Service.Services
 {
     public class DomainBL : IDomainContract
     {
         private readonly IDomain iDomain;
 
-        public DomainBL(IDomain iDomainInterface) 
+        public DomainBL(IDomain iDomainInterface)
         {
-            this.iDomain = iDomainInterface;
+            iDomain = iDomainInterface;
         }
 
         public async Task<List<IonosDomain>> UpdateAllDomains(string publicIP)
@@ -24,7 +24,7 @@ namespace Domain.Service.Services.IONOS
 
         public async Task<IonosDomain> CreateSubdomain(string subdomainName)
         {
-			var domainZone = await GetTheZoneID();
+            var domainZone = await GetTheZoneID();
             string ipOnIonos = await GetIpOnIonos();
             IonosDomain ionosDomain = new()
             {
@@ -36,17 +36,17 @@ namespace Domain.Service.Services.IONOS
                 Disabled = false
             };
 
-			var subDomainCreated = await iDomain.CreateSubdomain(domainZone, ionosDomain);
-			return subDomainCreated;
-		}
+            var subDomainCreated = await iDomain.CreateSubdomain(domainZone, ionosDomain);
+            return subDomainCreated;
+        }
 
-		public async Task<IonosZone> GetTheZoneID()
+        public async Task<IonosZone> GetTheZoneID()
         {
             IonosZone domainZone = await iDomain.GetTheZoneID();
             return domainZone;
         }
 
-        public async Task<List<IonosDomain>> GetAllDomainsForZoneID (string zoneID)
+        public async Task<List<IonosDomain>> GetAllDomainsForZoneID(string zoneID)
         {
             List<IonosDomain> domainsZone = await iDomain.GetAllDomainsForZoneID(zoneID);
             return domainsZone;
@@ -60,5 +60,5 @@ namespace Domain.Service.Services.IONOS
 
             return filteredDomain.Content;
         }
-	}
+    }
 }

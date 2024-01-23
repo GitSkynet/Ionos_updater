@@ -1,6 +1,6 @@
-﻿using DataAccess.DataAccess.RESTServices.IONOS.Interfaces;
-using DataAccess.DataAccess.RESTServices.IONOS.Services;
-using Domain.Service.Services.IONOS;
+﻿using DataAccess.DataAccess.Interfaces;
+using DataAccess.DataAccess.Services;
+using Domain.Service.Services;
 using DomainService.Contracts;
 
 namespace Ubuntu.Server.API

@@ -1,42 +1,59 @@
 # Ionos Updater
 
 Ionos Updater es un proyecto desarrollado en .NET y C# bajo los principios de Clean Architecture.
-Aplicando los principios SOLID, la finalidad es mantener actualizada la dirección IP pública de tu red en el registrador de dominios (IONOS). Este sistema establece conexión con la API de Ionos para gestionar la actualización de la IP tanto del dominio como de todos sus subdominios asociados. Además, notifica al usuario a través de mensajes en Telegram una vez completada la actualización. Pipeline con GitHub Workflow configurado para facilitar el despliegue de la solución con Docker pasando tests (Moq) y subiendo la imagen en Docker Hub
+Aplicando los principios SOLID, la finalidad es mantener actualizada la dirección IP pública de tu red en el registrador de dominios (IONOS). Este sistema establece conexión con la API de Ionos para gestionar la actualización de la IP tanto del dominio como de todos sus subdominios asociados. Además, notifica al usuario a través de mensajes en Telegram una vez completada la actualización. Pipeline con GitHub Workflow configurado para facilitar el despliegue de la solución dockerizando la imagen y haciendo deploy a Docker Hub
 
 ## Estructura de la solución
 
-- **Data Access Layer:** Capa de acceso a datos.
-  - **Data Access:** Acceso a datos.
-  - **Entities:** Entidades.
-
-- **Domain Layer:** Capa de dominio.
-  - **Domain Service:** Lógica de negocio.
-  - **Domain Contracts:** Interfaces & Adapters.
-
-- **Infraestructure Layer:** Capa de infraestructura.
-  - **Factories:** Factorías (HttpClientFactory, TelegramService...).
-
-- **Presentation Layer:** Capa de presentación.
-  - **WebAPI:** Front-End web con OpenAPI (Swagger)
-
-- **Tests:** Capa de Tests.
-  - **Domain Tests:** Tests de capa de dominio
-  - **Data Access Tests:** Tests de capa de acceso a datos
-
-- **docker:** Archivos relacionados con la construcción de imágenes Docker.
-  - **Dockerfile:** Archivo de configuración para la construcción de la imagen.
-
-- **scripts:** Scripts y utilidades.
-  - **update-ip.sh:** Script para actualizar la dirección IP.
-
-- **docs:** Documentación del proyecto.
-
-- **.github/workflows:** Archivos de flujo de trabajo de GitHub.
-  - **build-docker-image.yml:** Flujo de trabajo para construir la imagen Docker automáticamente.
-
-- **appsettings.json:** Configuración de la aplicación.
-
-- **README.md:** Este archivo de documentación.
+Esta solución pretende seguir los principios SOLID y aplica Clean Aerchitecture como patrón de diseño, 
+específicamente la arquitectura "N-Tier": UI > BussinesLayer (BL) > DataAccessLayer (DA)
+```
+Ionos Updater
+├── Data Access Layer/
+│   ├── DataAccess/
+|   |       ├── Interfaces/
+|   |       |   ├── ICertificateDA.cs
+|   |       |   └── ...
+|   |       └── Services/
+|   |           ├── CertificateDA.cs
+|   |           └── ...
+│   └── Entities/
+|           ├── Certificates/
+|           |   ├── Certificate.cs
+|           |   └── ...
+|           └── Domains/
+|               ├── Domain.cs
+|               └── ...
+├── Domain Layer/
+│   ├── Domain Service/
+|   |       └── Services/
+|   |           ├── DomainBL.cs
+|   |           └── ...
+│   └── Domain Contracts/
+|           ├── ICertificateContract/
+|           └── ...
+├── Infraestructure/
+│   └── Infraestructure Factories
+|           ├── HttpClientFactory/
+|           └── ...
+├── Presentation Layer/
+│   └── Ubuntu Server API
+|           ├── Controllers/
+|           ├── appsettings.json/
+|           ├── Program.cs/
+|           └── ...
+├── Tests Layer/
+│   └── Domain Layer Tests
+|           ├── IonosServiceTest.cs/
+|           └── ...
+├── .github/
+│   └── workflows
+|           └── build-docker-image.yml/  
+├── Dockerfile
+├── .gitignore
+├── .dockerignore
+└── README.md
+```
 
 ## Ejecutando la solución
 
@@ -120,5 +137,12 @@ Steve Smith también mantiene la aplicación de referencia de Microsoft, eShopOn
 
 Por favor, entiende que este proyecto no es un proyecto cerrrado.
 Actualmente el proyecto aún está en desarrollo, y debido a que me encuentro en constante mejora y actualización tanto de éste como de todos mis proyectos personales, desde la manera de estructurar la solución hasta la estructura y capas aplicadas; todo es susceptible de cambiar en un futuro.
-Por favor, si tienes alguna sugerencia, cambio o implementación; estaría encantado de escucharte!
+Por favor, si tienes alguna mejora o fix, no dudes en realizar una propuesta de cambio
 
+## Contacto
+
+Si te parece interesante mi perfil, ponte en contacto conmigo
+
+- [LinkedIn](https://linkedin.com/in/carlos-curtido).
+- [Portfolio](https://carloscurtido.es).
+- [Blog](https://blog.carloscurtido.es).
