@@ -1,4 +1,4 @@
-﻿using DataAccess.Entities.IONOSEntities;
+﻿using DataAccess.Entities.Domains;
 using DataAccess.Entities.IONOSEntities.Certificates;
 
 namespace DomainService.Contracts

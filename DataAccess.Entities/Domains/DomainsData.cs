@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 
-namespace DataAccess.Entities.IONOSEntities
+namespace DataAccess.Entities.Domains
 {
-	[Serializable]
-	public class DomainsData
+    [Serializable]
+    public class DomainsData
     {
         [JsonProperty("name")]
         public string Name { get; set; }
