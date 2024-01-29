@@ -6,6 +6,9 @@ on:
     paths:
       - '**.cs'
       - '**.csproj'
+    types:
+      - opened
+      - synchronize
 
 env:
   DOTNET_VERSION: '6.0.401' # La versión del SDK de .NET a utilizar
@@ -16,6 +19,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check PR Author
+        run: |
+          if [ "${{ github.event.pull_request.user.login }}" != "GitSkynet" ]; then
+            echo "Only the owner can create PRs. Requesting approval."
+            exit 1
+          fi
+
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -105,31 +115,6 @@ jobs:
 
           echo "PR #$PR_NUMBER has been approved"
 
-      - name: Squash Merge to Master
-        run: |
-          PR_NUMBER=${{ github.event.pull_request.number }}
-          TOKEN=${{ secrets.TOKEN_GITHUB }}
-          GITHUB_REPO=${{ github.repository }}
-      
-          # Perform a squash merge to master with PR title
-          MERGE_URL="https://api.github.com/repos/$GITHUB_REPO/pulls/$PR_NUMBER"
-        
-          PR_TITLE=$(curl -s $GITHUB_API_URL | jq -r '.title')
-          COMMIT_TITLE="Squash merge: '$PR_TITLE'"
-        
-          MERGE_RESPONSE=$(curl -X PUT -s -H "Authorization: token $TOKEN" -d "{
-            \"expected_head_sha\": null,
-            \"merge_method\": \"squash\",
-            \"commit_title\": \"$COMMIT_TITLE\"
-            \"merge_state\": \"merged\"
-          }" "$MERGE_URL")
-
-          # Auto-confirm & Squash Merge the PR
-          curl -X PATCH -s -H "Authorization: token $TOKEN" -d '{
-            "auto_merge": true,
-            "mergeable": true
-          }' "https://api.github.com/repos/$GITHUB_REPO/pulls/$PR_NUMBER"
-     
   build-and-publish:
     runs-on: ubuntu-latest
     needs: create-pr-and-approve
