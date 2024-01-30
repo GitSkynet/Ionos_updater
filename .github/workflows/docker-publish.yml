@@ -6,9 +6,6 @@ on:
     paths:
       - '**.cs'
       - '**.csproj'
-    types:
-      - opened
-      - synchronize
 
 env:
   DOTNET_VERSION: '6.0.401' # La versión del SDK de .NET a utilizar
@@ -130,7 +127,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t 1234567890325sdfsdc/ubuntuserverapi:latest ./
+        run: docker build -t ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO_NAME }}:latest ./
 
       - name: Push Docker image
-        run: docker push 1234567890325sdfsdc/ubuntuserverapi:latest
+        run: docker push ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO_NAME }}:latest
